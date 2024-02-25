@@ -6,8 +6,10 @@ using Random = UnityEngine.Random;
 
 public class LiDarScanner : MonoBehaviour
 {
-    private InputAction _fire;
-    private InputAction _changeRadius;
+    //private InputAction _fire;
+    //private InputAction _changeRadius;
+    [SerializeField] private InputActionProperty _fire;
+    [SerializeField] private InputActionProperty _changeRadius;
     private List<Vector3> _positionsList = new();
     private List<VisualEffect> _vfxList = new();
     private VisualEffect _currentVFX;
@@ -21,7 +23,7 @@ public class LiDarScanner : MonoBehaviour
 
 
     [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private PlayerInput playerInput;
+    //[SerializeField] private PlayerInput playerInput;
     [SerializeField] private VisualEffect _vfxPrefab;
     [SerializeField] private GameObject _vfxContainer;
     [SerializeField] private Transform _castPoint;
@@ -36,8 +38,8 @@ public class LiDarScanner : MonoBehaviour
 
     private void Start()
     {
-        _fire = playerInput.actions["Fire"];
-        _changeRadius = playerInput.actions["Scroll"];
+        //_fire = playerInput.actions["Fire"];
+        //_changeRadius = playerInput.actions["Scroll"];
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.enabled = false;
         _createNewVFX = true;
@@ -54,15 +56,15 @@ public class LiDarScanner : MonoBehaviour
 
     private void ChangeRadius()
     {
-        if (_changeRadius.triggered)
+        if (_changeRadius.action.triggered)
         {
-            _radius = Mathf.Clamp(_radius + _changeRadius.ReadValue<float>() * Time.deltaTime, _minRadius, _maxRadius);
+            _radius = Mathf.Clamp(_radius + _changeRadius.action.ReadValue<float>() * Time.deltaTime, _minRadius, _maxRadius);
         }
     }
 
     public void Scan()
     {
-        if (_fire.IsPressed())
+        if (_fire.action.triggered)
         {
             for (int i = 0; i < _pointsPerScan; i++)
             {
